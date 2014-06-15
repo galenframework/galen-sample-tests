@@ -1,0 +1,1 @@
+galen test . --htmlreport reports
