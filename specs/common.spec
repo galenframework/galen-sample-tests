@@ -8,7 +8,10 @@ header-text              css   #header h1
 menu                     css   #menu ul
 menu-item-*              css   #menu li a
 
+content                     css   #content
+
 ==============================================================
+
 
 @ Header | *
 ---------------------------------------------
@@ -86,3 +89,19 @@ menu-item-@
 [ 1, 3 ]
 menu-item-@
     near: menu-item-@{+1}  0 to 5 px left
+
+
+
+
+
+@ Content | *
+-----------------------------------------
+content
+    below: menu ~ 0px
+    centered horizontally inside: screen 1px
+
+
+@ ^ | desktop
+------------------
+content
+    width: 900px
