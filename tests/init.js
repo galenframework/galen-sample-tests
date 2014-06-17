@@ -48,14 +48,22 @@ afterTest(function (test) {
     }
 });
 
-
+function _test(testNamePrefix, url, callback) {
+    test(testNamePrefix + " on ${deviceName} device", function (device) {
+        var driver = openDriver(url, device.size);
+        callback.call(this, driver, device);
+    });
+}
 
 function testOnAllDevices(testNamePrefix, url, callback) {
     forAll(devices, function () {
-        test(testNamePrefix + " on ${deviceName} device", function (device) {
-            var driver = openDriver(url, device.size);
-            callback.call(this, driver, device);
-        });
+        _test(testNamePrefix, url, callback);
+    });
+}
+
+function testOnDevice(device, testNamePrefix, url, callback) {
+    forOnly({device: device}, function() {
+        _test(testNamePrefix, url, callback);
     });
 }
 
