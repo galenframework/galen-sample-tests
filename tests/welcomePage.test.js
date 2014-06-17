@@ -10,10 +10,12 @@ testOnAllDevices("Welcome page", "/", function (driver, device) {
 
 testOnDevice(devices.desktop, "Menu Highlight", "/", function (driver, device) {
     var welcomePage = new WelcomePage(driver).waitForIt();
+    logged("Checking color for menu item", function () {
+        checkLayout(driver, "specs/menuHighlight.spec", ["usual"]);
+    })
 
-    checkLayout(driver, "specs/menuHighlight.spec", ["usual"]);
-
-    welcomePage.hoverFirstMenuItem();
-
-    checkLayout(driver, "specs/menuHighlight.spec", ["hovered"]);
+    logged("Checking color for highlighted menu item", function () {
+        welcomePage.hoverFirstMenuItem();
+        checkLayout(driver, "specs/menuHighlight.spec", ["hovered"]);
+    });
 });
