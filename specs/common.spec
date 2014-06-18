@@ -8,7 +8,9 @@ header-text              css   #header h1
 menu                     css   #menu ul
 menu-item-*              css   #menu li a
 
-content                     css   #content
+content                  css   #content
+
+footer                   id    footer
 
 ==============================================================
 
@@ -105,3 +107,10 @@ content
 ------------------
 content
     width: 900px
+
+
+@ Footer | *
+-----------------------------------------
+footer
+    height: ~ 200px
+    below: content 0px 
