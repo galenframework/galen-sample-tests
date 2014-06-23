@@ -3,10 +3,24 @@ load("pages/LoginPage.js");
 
 
 testOnAllDevices("Login page", "/", function (driver, device) {
-    var welcomePage = new WelcomePage(driver).waitForIt();
-    welcomePage.loginButton.click();
 
-    var loginPage = new LoginPage(driver).waitForIt();
+    var loginPage = null;
 
-    checkLayout(driver, "specs/loginPage.spec", device.tags);
+    logged("Basic layout check", function () {
+        var welcomePage = new WelcomePage(driver).waitForIt();
+        welcomePage.loginButton.click();
+
+        loginPage = new LoginPage(driver).waitForIt();
+
+        checkLayout(driver, "specs/loginPage.spec", device.tags);
+    });
+
+    logged("Checking error box", function () {
+        loginPage.username.typeText("qweqwe");
+        loginPage.loginButton.click();
+        loginPage.errorMessage.waitToBeShown();
+
+        checkLayout(driver, "specs/loginPage-withErrorMessage.spec", device.tags);
+    });
+
 });

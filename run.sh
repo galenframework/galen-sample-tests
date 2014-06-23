@@ -1,1 +1,1 @@
-galen test . --htmlreport reports
+galen test tests/ --htmlreport reports
