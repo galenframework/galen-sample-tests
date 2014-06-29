@@ -3,7 +3,7 @@ load("pages/LoginPage.js");
 load("pages/MyNotesPage.js");
 
 
-function loginAsTestUser() {
+function loginAsTestUser(driver) {
     new WelcomePage(driver)
         .waitForIt()
         .loginButton.click();
@@ -16,5 +16,7 @@ function loginAsTestUser() {
 }
 
 testOnAllDevices("My notes page", "/", function (driver, device) {
-    loginAsTestUser();
+    loginAsTestUser(driver);
+
+    checkLayout(driver, "specs/myNotesPage.spec", device.tags);
 });

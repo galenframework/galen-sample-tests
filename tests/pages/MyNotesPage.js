@@ -1,5 +1,5 @@
 this.MyNotesPage = function (driver) {
-    GalenPage.extendPage(this, driver,  {
+    GalenPages.extendPage(this, driver,  {
         addNoteButton: "xpath: //button[.='Add note']"
     });
 };
