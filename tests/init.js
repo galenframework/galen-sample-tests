@@ -67,7 +67,7 @@ function testOnAllDevices(testNamePrefix, url, callback) {
 }
 
 function testOnDevice(device, testNamePrefix, url, callback) {
-    forOnly({device: device}, function() {
+    forOnly(device, function() {
         _test(testNamePrefix, url, callback);
     });
 }
