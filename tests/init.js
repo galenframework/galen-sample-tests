@@ -5,17 +5,43 @@ var devices = {
     mobile: {
         deviceName: "mobile",
         size: "450x800",
-        tags: ["mobile"]
+        tags: "mobile",
+
+        getDriver: function () {
+            return createGridDriver("http://127.0.0.1:8001/wd/hub", {
+                desiredCapabilities: {
+                    browserName: "Chrome",
+                    platformName: "Android",
+                    deviceName: "Samsung",
+                    bundleId: "com.android.chrome"
+                }
+            });
+        }
     },
     tablet: {
         deviceName: "tablet",
         size: "600x800",
-        tags: ["tablet"]
+        tags: "tablet",
+
+        getDriver: function () {
+            return createGridDriver("http://127.0.0.1:8002/wd/hub", {
+                desiredCapabilities: {
+                    browserName: "Chrome",
+                    platformName: "Android",
+                    deviceName: "Asus Transformer",
+                    bundleId: "com.android.chrome"
+                }
+            });
+        }
     },
     desktop: {
         deviceName: "desktop",
         size: "1100x800",
-        tags: ["desktop"]
+        tags: "desktop",
+
+        getDriver: function () {
+            return createDriver(null, this.size);
+        }
     }
 };
 
@@ -25,8 +51,8 @@ var TEST_USER = {
 };
 
 
-function openDriver(url, size) {
-    var driver = createDriver(null, size);
+function openDriver(url, device) {
+    var driver = device.getDriver();
 
     session.put("driver", driver);
 
@@ -55,7 +81,7 @@ afterTest(function (test) {
 
 function _test(testNamePrefix, url, callback) {
     test(testNamePrefix + " on ${deviceName} device", function (device) {
-        var driver = openDriver(url, device.size);
+        var driver = openDriver(url, device);
         callback.call(this, driver, device);
     });
 }
