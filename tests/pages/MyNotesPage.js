@@ -1,5 +1,3 @@
-this.MyNotesPage = function (driver) {
-    GalenPages.extendPage(this, driver,  {
-        addNoteButton: "xpath: //button[.='Add note']"
-    });
-};
+this.MyNotesPage = $page("My notes page", {
+    addNoteButton: "xpath: //button[.='Add note']"
+});
