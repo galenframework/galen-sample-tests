@@ -60,7 +60,7 @@
 
         @forEach [menu-item-*] as menuItem, prev as previousMenuItem
             ${menuItem}:
-                near ${previousMenuItem} 0 to 5px left
+                right-of ${previousMenuItem} 0 to 5px
                 aligned horizontally all ${previousMenuItem}
 
 
