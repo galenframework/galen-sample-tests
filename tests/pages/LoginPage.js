@@ -8,12 +8,9 @@ this.LoginPage = $page("Login page", {
     // Declaring secondary fields so they are not used in 'waitForIt' function
     errorMessage: "#login-error-message",
 
-    loginAs: function (user) {
-        var thisPage = this;
-        logged("Login as " + user.username + " with password " + user.password, function () {
-            thisPage.username.typeText(user.username);
-            thisPage.password.typeText(user.password);
-            thisPage.loginButton.click();
-        });
-    }
+    loginAs: loggedFunction ("Log in as ${_1.username} with password ${_1.password}", function(user) {
+        this.username.typeText(user.username);
+        this.password.typeText(user.password);
+        this.loginButton.click();
+    }) 
 });
