@@ -1,6 +1,8 @@
 load("pages/LoginPage.js");
 load("pages/MyNotesPage.js");
 
+var config = getConfig();
+
 function loginAsTestUser(driver) {
     new WelcomePage(driver)
         .waitForIt()
@@ -8,7 +10,7 @@ function loginAsTestUser(driver) {
 
     new LoginPage(driver)
         .waitForIt()
-        .loginAs(TEST_USER);
+        .loginAs(config.TEST_USER);
 
     return new MyNotesPage(driver).waitForIt();
 }

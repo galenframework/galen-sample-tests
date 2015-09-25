@@ -1,0 +1,31 @@
+{
+	"domain" : "testapp.galenframework.com",
+	"gridUrl": "",
+	"defaultBrowser": "firefox",
+	"devices" : {
+
+		"mobile": {
+			"deviceName": "mobile",
+			"size": "450x800",
+			"tags": ["mobile"]
+		},
+
+		"tablet": {
+			"deviceName": "tablet",
+			"size": "600x800",
+			"tags": ["tablet"]
+		},
+
+		"desktop": {
+			"deviceName": "desktop",
+			"size": "1100x800",
+			"tags": ["desktop"]
+		}
+	},
+	"config": {
+		"TEST_USER": {
+			"username": "testuser@example.com",
+			"password": "test123"
+		}
+	}
+}
