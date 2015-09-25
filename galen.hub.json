@@ -1,0 +1,18 @@
+{
+	"domain" : "testapp.galenframework.com",
+	"gridUrl": "http://selenium-ip:4444/wd/hub",
+	"devices": {
+
+		"desktop" : {
+			"deviceName": "desktop",
+			"browser": "chrome",
+			"size": "1280x800",
+			"desiredCapabilities": {
+				"browser": "chrome",
+				"passed": "true",
+				"platform": "MAC",
+				"version": "43"
+			}
+		}
+	}
+}
