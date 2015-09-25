@@ -1,32 +1,77 @@
+var config = loadConfig();
+var domain = config.domain;
+var defaultBrowser = config.defaultBrowser;
+var devices = config.devices;
+var gridUrl = config.gridUrl;
+var customConfig = config.config;
 
-var domain = "testapp.galenframework.com";
+var testOnlyPrefixes = [];
 
-var devices = {
-    mobile: {
-        deviceName: "mobile",
-        size: "450x800",
-        tags: ["mobile"]
-    },
-    tablet: {
-        deviceName: "tablet",
-        size: "600x800",
-        tags: ["tablet"]
-    },
-    desktop: {
-        deviceName: "desktop",
-        size: "1100x800",
-        tags: ["desktop"]
+function loadConfig() {
+    var System = this.System;
+
+    var configPath = System.getenv("GALEN_CONFIG") || "./galen.local.json";
+
+    var configStr = readFile(configPath);
+    var config = JSON.parse(configStr);
+
+    var envGridUrl = null;
+
+    var envDomain = System.getenv("GALEN_DOMAIN");
+    if (envDomain) {
+        config.domain = "" + envDomain;
+    } else if (!config.domain){
+        config.domain = "localhost:3000";
     }
+
+    envGridUrl = System.getenv("GALEN_GRID_URL");
+    if (envGridUrl) {
+        config.gridUrl = "" + envGridUrl;
+    } else if (!config.gridUrl) {
+        config.gridUrl = "";
+    }
+
+    if (!config.defaultBrowser) {
+        config.defaultBrowser = "firefox";
+    }
+
+    if (!config.devices) {
+        config.devices = {};
+    }
+
+    var allowedDevices = ["desktop", "mobile", "tablet"];
+
+    var devices = {};
+    allowedDevices.forEach(function (tag) {
+        if (tag in config.devices) {
+            devices[tag] = config.devices[tag];
+        } else {
+            devices[tag] = {
+                browser: "",
+                deviceName: tag,
+                skip: true
+            };
+        }
+
+        if (!devices[tag].tags) {
+            devices[tag].tags = [ tag ];
+        }
+
+    });
+
+    config.devices = devices;
+
+    return config;
 };
 
-var TEST_USER = {
-    username: "testuser@example.com",
-    password: "test123"
-};
+function openDriver(url, device) {
+    var driver;
 
-
-function openDriver(url, size) {
-    var driver = createDriver(null, size);
+    if (gridUrl) {
+        driver = createGridDriver(gridUrl, device);
+    } else {
+        driver = createDriver(null, device.size, device.browser || defaultBrowser);
+    }
 
     session.put("driver", driver);
 
@@ -35,13 +80,11 @@ function openDriver(url, size) {
             url = "http://" + domain + url;
         }
         driver.get(url);
-    }
-    else {
+    } else {
         driver.get("http://" + domain);
     }
     return driver;
 }
-
 
 afterTest(function (test) {
     var driver = session.get("driver");
@@ -53,33 +96,60 @@ afterTest(function (test) {
     }
 });
 
-function _test(testNamePrefix, url, callback) {
-    test(testNamePrefix + " on ${deviceName} device", function (device) {
-        var driver = openDriver(url, device.size);
-        callback.call(this, driver, device);
-    });
+function _test(testNamePrefix, url, device, callback) {
+    var testName = (testNamePrefix + " on ${deviceName} device");
+
+    if (device == null) {
+        console.log("DEVICE NOT FOUND: " + testName);
+    } else if (device.skip) {
+        // don"t run test, since it should be skipped
+        console.log("SKIP: " + testName.replace("${deviceName}", device.deviceName));
+    } else {
+        var browser = device.browser || defaultBrowser;
+        test(testName + " on " + browser, function (device) {
+            if (testOnlyPrefixes.length != 0 && testOnlyPrefixes.indexOf(testNamePrefix) == -1) {
+                console.log("= SKIP ( 'only' keyword found in different test ) = ");
+                console.log(" ");
+            } else {
+                var driver = openDriver(url, device);
+                callback.call(this, driver, device);
+            }
+        });
+    }
 }
 
 function testOnAllDevices(testNamePrefix, url, callback) {
-    forAll(devices, function () {
-        _test(testNamePrefix, url, callback);
+    forAll(devices, function (device) {
+        _test(testNamePrefix, url, device, callback);
     });
 }
+
+testOnAllDevices.only = function (testNamePrefix, url, callback) {
+    testOnlyPrefixes.push(testNamePrefix);
+    return testOnAllDevices(testNamePrefix, url, callback);
+};
 
 function testOnDevice(device, testNamePrefix, url, callback) {
     forOnly(device, function() {
-        _test(testNamePrefix, url, callback);
+        _test(testNamePrefix, url, device, callback);
     });
 }
 
+testOnDevice.only = function testOnDevice(device, testNamePrefix, url, callback) {
+    testOnlyPrefixes.push(testNamePrefix);
+    return testOnDevice(device, testNamePrefix, url, callback);
+};
 
+function getConfig() {
+    return customConfig;
+}
 
 /*
-    Exporting functions to all other tests that will use this script
-*/
+ * Exporting functions to all other tests that will use this script
+ */
 (function (export) {
     export.devices = devices;
     export.openDriver = openDriver;
     export.testOnAllDevices = testOnAllDevices;
-    export.TEST_USER = TEST_USER;
+    export.getConfig = getConfig;
 })(this);
