@@ -1,23 +1,36 @@
+load("sauceLabsSupport.js");
 
 var domain = "testapp.galenframework.com";
 
-var devices = {
-    mobile: {
-        deviceName: "mobile",
-        size: "450x800",
-        tags: ["mobile"]
-    },
-    tablet: {
-        deviceName: "tablet",
-        size: "600x800",
-        tags: ["tablet"]
-    },
-    desktop: {
-        deviceName: "desktop",
-        size: "1100x800",
-        tags: ["desktop"]
+function copyProperties(dest, source) {
+    for (var propertyName in source) {
+        if (source.hasOwnProperty(propertyName)) {
+            dest[propertyName] = source[propertyName];
+        }
     }
+}
+
+function Device(deviceName, tags, openDriverFunction) {
+    this.deviceName = deviceName;
+    this.tags = tags;
+    this.openDriver = openDriverFunction;
+}
+
+function inLocalBrowser(name, size, tags, browserType) {
+    browserType = browserType || "firefox";
+    return new Device(name, tags, function (url) {
+        return createDriver(url, size, browserType);
+    });
+}
+
+var devices = {
+    mobileEmulation: inLocalBrowser("mobile", "450x800", ["mobile"]),
+    tabletEmulation: inLocalBrowser("tablet", "600x800", ["tablet"]),
+    desktopFirefox: inLocalBrowser("desktop", "1100x800", ["desktop"], "firefox"),
 };
+if (System.getProperty("saucelabs.enabled") == "true") {
+    copyProperties(devices, sauceLabsDevices);
+}
 
 var TEST_USER = {
     username: "testuser@example.com",
@@ -25,8 +38,8 @@ var TEST_USER = {
 };
 
 
-function openDriver(url, size) {
-    var driver = createDriver(null, size);
+function openDriverForDevice(device, url) {
+    var driver = device.openDriver(null);
 
     session.put("driver", driver);
 
@@ -55,7 +68,7 @@ afterTest(function (test) {
 
 function _test(testNamePrefix, url, callback) {
     test(testNamePrefix + " on ${deviceName} device", function (device) {
-        var driver = openDriver(url, device.size);
+        var driver = openDriverForDevice(device, url);
         callback.call(this, driver, device);
     });
 }
@@ -79,7 +92,6 @@ function testOnDevice(device, testNamePrefix, url, callback) {
 */
 (function (export) {
     export.devices = devices;
-    export.openDriver = openDriver;
     export.testOnAllDevices = testOnAllDevices;
     export.TEST_USER = TEST_USER;
 })(this);
