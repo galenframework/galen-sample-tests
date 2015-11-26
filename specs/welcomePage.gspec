@@ -1,55 +1,55 @@
 @import common.gspec
 
 @objects
-    welcome-block       css     .jumbotron
-    greeting            css     #welcome-page h1
-    text-block-*        css     #welcome-page p
-    login-button        css     #welcome-page .button-login
+    welcome_block       .jumbotron
+    greeting            #welcome-page h1
+    text_block-*        #welcome-page p
+    login_button        #welcome-page .button-login
 
 
 = Content =
     @on *
-        welcome-block:
+        welcome_block:
             inside content ~ 20px top left right
 
-        text-block-1, login-button, text-block-3:
-            inside welcome-block ~30px left
+        text_block-1, login_button, text_block-3:
+            inside welcome_block ~30px left
 
         greeting:
-            above text-block-1 10 to 50 px
-            inside welcome-block ~ 30px left
+            above text_block-1 10 to 50 px
+            inside welcome_block ~ 30px left
 
-        text-block-1:
+        text_block-1:
             height > 20px
-            above login-button 10 to 50 px
+            above login_button 10 to 50 px
 
-        login-button:
+        login_button:
             height ~ 45px
             text is "Login"
-            above text-block-3 10 to 50px
+            above text_block-3 10 to 50px
 
 
     @on desktop
         greeting:
             height ~ 69px
-            inside welcome-block ~ 68 px top
+            inside welcome_block ~ 68 px top
 
-        login-button:
+        login_button:
             width ~ 78px
 
 
     @on tablet
         greeting:
             height ~ 39px
-            inside welcome-block ~ 50 px top
+            inside welcome_block ~ 50 px top
 
-        login-button:
+        login_button:
             width ~ 78px
 
     @on mobile
         greeting:
             height ~ 78px
-            inside welcome-block ~ 50 px top
+            inside welcome_block ~ 50 px top
 
-        login-button:
-            inside welcome-block ~ 30px left right
+        login_button:
+            inside welcome_block ~ 30px left right

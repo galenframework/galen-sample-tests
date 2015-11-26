@@ -1,20 +1,20 @@
 
 
 @objects
-    password-textfield   css input[name='login.password']
-    login-button         css .button-login
-    error-message        id   login-error-message
+    password_textfield   input[name='login.password']
+    login_button         .button-login
+    error_message        #login-error-message
 
 
 = Error message =
     @on *
-        error-message:
-            below password-textfield 5 to 15px
+        error_message:
+            below password_textfield 5 to 15px
             height ~ 52px
-            aligned vertically all password-textfield
-            above login-button 10 to 30px
+            aligned vertically all password_textfield
+            above login_button 10 to 30px
 
 
     @on mobile
-        error-message:
-            aligned vertically all login-button
+        error_message:
+            aligned vertically all login_button
