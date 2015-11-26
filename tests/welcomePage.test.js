@@ -3,19 +3,19 @@ load("pages/WelcomePage.js");
 
 testOnAllDevices("Welcome page", "/", function (driver, device) {
     new WelcomePage(driver).waitForIt();
-    checkLayout(driver, "specs/welcomePage.spec", device.tags);
+    checkLayout(driver, "specs/welcomePage.gspec", device.tags);
 });
 
 
 
-testOnDevice(devices.desktop, "Menu Highlight", "/", function (driver, device) {
+testOnDevice(devices.desktopFirefox, "Menu Highlight", "/", function (driver, device) {
     var welcomePage = new WelcomePage(driver).waitForIt();
     logged("Checking color for menu item", function () {
-        checkLayout(driver, "specs/menuHighlight.spec", ["usual"]);
+        checkLayout(driver, "specs/menuHighlight.gspec", ["usual"]);
     })
 
     logged("Checking color for highlighted menu item", function () {
         welcomePage.hoverFirstMenuItem();
-        checkLayout(driver, "specs/menuHighlight.spec", ["hovered"]);
+        checkLayout(driver, "specs/menuHighlight.gspec", ["hovered"]);
     });
 });

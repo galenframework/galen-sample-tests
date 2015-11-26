@@ -85,6 +85,31 @@ function testOnDevice(device, testNamePrefix, url, callback) {
     });
 }
 
+/**
+ * Used for testing layout when long words are used on major elements
+ * This will only work in galen 2.2+
+ */
+function checkLongWordsLayout(driver, spec, tags) {
+    var pageSpec = parsePageSpec({
+        driver: driver, 
+        spec: spec
+    });
+
+    logged("Replace text in major elements to a single long word", function (report) {
+        var longWordsObjects = pageSpec.findObjectsInGroup("longWordTest");
+        for (var i = 0; i < longWordsObjects.size(); i++) {
+            report.info("Changing element " + longWordsObjects.get(i));
+
+            var locator = pageSpec.getObjects().get(longWordsObjects.get(i));
+            if (locator !== null) {
+                var webElement = GalenUtils.findWebElement(driver, locator);
+                driver.executeScript("var element = arguments[0]; element.innerHTML=\"Freundschaftsbezeigungen\";", webElement);
+            }
+        }
+    });
+
+    checkLayout(driver, spec, tags);
+}
 
 
 /*
@@ -94,4 +119,5 @@ function testOnDevice(device, testNamePrefix, url, callback) {
     export.devices = devices;
     export.testOnAllDevices = testOnAllDevices;
     export.TEST_USER = TEST_USER;
+    export.checkLongWordsLayout = checkLongWordsLayout;
 })(this);

@@ -1,11 +1,10 @@
-@import common.spec
+@import common.gspec
 
 @objects
     welcome-block       css     .jumbotron
     greeting            css     #welcome-page h1
     text-block-*        css     #welcome-page p
     login-button        css     #welcome-page .button-login
-
 
 
 = Content =

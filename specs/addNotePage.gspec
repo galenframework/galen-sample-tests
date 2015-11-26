@@ -1,4 +1,4 @@
-@import common.spec
+@import common.gspec
 
 @objects
     caption                 css     #content h2

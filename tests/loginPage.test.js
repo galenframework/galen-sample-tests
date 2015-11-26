@@ -12,7 +12,7 @@ testOnAllDevices("Login page", "/", function (driver, device) {
 
         loginPage = new LoginPage(driver).waitForIt();
 
-        checkLayout(driver, "specs/loginPage.spec", device.tags);
+        checkLayout(driver, "specs/loginPage.gspec", device.tags);
     });
 
     logged("Checking error box", function () {
@@ -20,7 +20,7 @@ testOnAllDevices("Login page", "/", function (driver, device) {
         loginPage.loginButton.click();
         loginPage.errorMessage.waitToBeShown();
 
-        checkLayout(driver, "specs/loginPage-withErrorMessage.spec", device.tags);
+        checkLayout(driver, "specs/loginPage-withErrorMessage.gspec", device.tags);
     });
 
 });

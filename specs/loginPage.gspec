@@ -1,4 +1,4 @@
-@import common.spec
+@import common.gspec
 
 @objects
     login-box           id  login-page

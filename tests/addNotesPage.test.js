@@ -10,5 +10,5 @@ testOnAllDevices("Add note page", "/", function (driver, device) {
     myNotesPage.addNoteButton.click();
     new AddNotePage(driver).waitForIt();
 
-    checkLayout(driver, "specs/addNotePage.spec", device.tags);
+    checkLayout(driver, "specs/addNotePage.gspec", device.tags);
 });

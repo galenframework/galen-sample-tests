@@ -5,5 +5,5 @@ load("commons.js");
 
 testOnAllDevices("My notes page", "/", function (driver, device) {
     loginAsTestUser(driver);
-    checkLayout(driver, "specs/myNotesPage.spec", device.tags);
+    checkLayout(driver, "specs/myNotesPage.gspec", device.tags);
 });
