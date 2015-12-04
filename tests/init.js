@@ -89,14 +89,15 @@ function testOnDevice(device, testNamePrefix, url, callback) {
  * Used for testing layout when long words are used on major elements
  * This will only work in galen 2.2+
  */
-function checkLongWordsLayout(driver, spec, tags) {
+function checkLongWordsLayout(driver, spec, tags, groupName) {
+    groupName = groupName || "long_word_test";
     var pageSpec = parsePageSpec({
         driver: driver, 
         spec: spec
     });
 
     logged("Replace text in major elements to a single long word", function (report) {
-        var longWordsObjects = pageSpec.findObjectsInGroup("longWordTest");
+        var longWordsObjects = pageSpec.findObjectsInGroup(groupName);
         for (var i = 0; i < longWordsObjects.size(); i++) {
             report.info("Changing element " + longWordsObjects.get(i));
 
@@ -109,6 +110,84 @@ function checkLongWordsLayout(driver, spec, tags) {
     });
 
     checkLayout(driver, spec, tags);
+}
+
+var _standardImageDiffSpecGenerators = {
+    "image_diff_validation": function (imagePath) {
+        return "image file " + imagePath + ", map-filter denoise 1";
+    },
+    "image_diff_validation_blur": function (imagePath) {
+        return "image file " + imagePath + ", filter blur 4, map-filter denoise 4, analyze-offset 2, error 2%";
+    }
+};
+
+/**
+ * Will only work with galen 2.2+
+ */
+function checkImageDiff (storage, driver, spec, specGenerators) {
+    specGenerators = specGenerators || _standardImageDiffSpecGenerators;
+
+    if (!fileExists(storage)) {
+        makeDirectory(storage);
+    }
+
+    var iterationDirs = listDirectory(storage);
+
+    var currentIteration = 0;
+
+    if (iterationDirs.length > 0) {
+        iterationDirs.sort( function (a, b) {
+            var aInt = parseInt(a) || 0;
+            var bInt = parseInt(b) || 0;
+            return aInt - bInt;
+        });
+        var selectedFolder = iterationDirs[iterationDirs.length - 1];
+        currentIteration = parseInt(selectedFolder);
+
+        var pageSpec = parsePageSpec({
+            driver: driver, 
+            spec: spec
+        });
+        pageSpec.clearSections();
+
+        for (var imageDiffGroup in specGenerators) {
+            if (specGenerators.hasOwnProperty(imageDiffGroup)) {
+                var imageDiffObjects = GalenUtils.listToArray(pageSpec.findObjectsInGroup(imageDiffGroup));
+                if (imageDiffObjects.length === 0) {
+                    throw new Error("Couldn't find any objects for " + imageDiffGroup + " group");
+                }
+
+                for (var i = 0; i < imageDiffObjects.length; i++) {
+                    pageSpec.addSpec("Image Diff Validation", 
+                        imageDiffObjects[i], 
+                        specGenerators[imageDiffGroup](storage + "/" + selectedFolder + "/objects/" + imageDiffObjects[i] + ".png")
+                    );
+                }
+            }
+        }
+
+
+        logged("Verifying image diffs with #" + selectedFolder + " iteration", function () {
+            checkPageSpecLayout(driver, pageSpec);
+        });
+    }
+        
+    currentIteration += 1;
+    var iterationPath = storage + "/" + currentIteration;
+
+    logged("Creating page dump to " + iterationPath, function () {
+        dumpPage({
+            driver: driver,
+            spec: spec,
+            exportPath: iterationPath,
+            onlyImages: true,
+            excludedObjects: ["screen", "viewport"]
+        });
+    });
+
+    if (iterationDirs.length == 0) {
+        throw new Error("Couldn't find any previous iterations");
+    }
 }
 
 
