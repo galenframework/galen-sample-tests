@@ -126,6 +126,33 @@ function testOnDevice(device, testNamePrefix, url, callback) {
     });
 }
 
+function checkRandomSizeLayout(driver, spec, tags, widthRange, iterationAmount) {
+    var sizes = [];
+    var widthStart = widthRange[0];
+    var widthEnd = widthRange[1];
+    var widthDelta = widthEnd - widthStart;
+    if (iterationAmount > widthDelta) {
+        iterationAmount = widthDelta;
+    }
+
+    if (iterationAmount < 1) {
+        throw new Error("Amount of iterations should be greater than 0");
+    }
+
+    var iterationDelta = Math.round(widthDelta / iterationAmount);
+    if (iterationDelta < 1) {
+        iterationDelta = 1;
+    }
+
+    for (var i = 0; i < iterationAmount; i++) {
+        var size = Math.round(widthStart + i * iterationDelta + Math.round(Math.random() * iterationDelta));
+        logged("Resizing to width " + size, function () {
+            resize(driver, size + "x700");
+            checkLayout(driver, spec, tags);
+        });
+    }
+}
+
 /**
  * Used for testing layout when long words are used on major elements
  * This will only work in galen 2.2+
