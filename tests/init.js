@@ -150,12 +150,13 @@ function checkImageDiff (storage, driver, spec, specGenerators) {
         });
         pageSpec.clearSections();
 
+        var totalObjects = 0;
+
         for (var imageDiffGroup in specGenerators) {
             if (specGenerators.hasOwnProperty(imageDiffGroup)) {
                 var imageDiffObjects = GalenUtils.listToArray(pageSpec.findObjectsInGroup(imageDiffGroup));
-                if (imageDiffObjects.length === 0) {
-                    throw new Error("Couldn't find any objects for " + imageDiffGroup + " group");
-                }
+
+                totalObjects += imageDiffObjects.length;
 
                 for (var i = 0; i < imageDiffObjects.length; i++) {
                     pageSpec.addSpec("Image Diff Validation", 
@@ -166,6 +167,9 @@ function checkImageDiff (storage, driver, spec, specGenerators) {
             }
         }
 
+        if (totalObjects === 0) {
+            throw new Error("Couldn't find any objects for " + imageDiffGroup + " group");
+        }
 
         logged("Verifying image diffs with #" + selectedFolder + " iteration", function () {
             checkPageSpecLayout(driver, pageSpec);
