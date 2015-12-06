@@ -1,7 +1,15 @@
 
 function inSauceLabs(deviceName, tags, gridSettings) {
-    return new Device(deviceName, tags, function () {
-        return createGridDriver(System.getProperty("saucelabs.url"), gridSettings);
+    return new Device({
+        deviceName: deviceName,
+        tags: tags,
+        initDriver: function (url) {
+            this.driver = createGridDriver(System.getProperty("saucelabs.url"), gridSettings);
+            return this.driver;
+        },
+        quit: function () {
+            this.driver.quit();
+        }
     });
 }
 

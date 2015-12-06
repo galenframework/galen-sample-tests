@@ -10,23 +10,64 @@ function copyProperties(dest, source) {
     }
 }
 
-function Device(deviceName, tags, openDriverFunction) {
-    this.deviceName = deviceName;
-    this.tags = tags;
-    this.openDriver = openDriverFunction;
+function Device(settings) {
+    this.deviceName = settings.deviceName;
+    this.tags = settings.tags;
+    this.initDriver = settings.initDriver;
+    this.quit = settings.quit;
 }
 
 function inLocalBrowser(name, size, tags, browserType) {
     browserType = browserType || "firefox";
-    return new Device(name, tags, function (url) {
-        return createDriver(url, size, browserType);
+    return new Device({
+        deviceName: name,
+        tags: tags,
+        initDriver: function (url) {
+            this.driver = createDriver(url, size, browserType);
+            return this.driver;
+        },
+        quit: function () {
+            this.driver.quit();
+        }
     });
 }
 
+var _globalSingleDriver = null;
+function inSingleBrowser(name, size, tags) {
+    return new Device({
+        deviceName: name,
+        tags: tags,
+        initDriver: function (url) {
+            if (_globalSingleDriver === null) {
+                _globalSingleDriver = createDriver(url, size);
+            }
+            this.driver = _globalSingleDriver;
+
+            if (url !== null) {
+                this.driver.get(url);
+            }
+            
+            if (size !== null) {
+                resize(this.driver, size);
+            }
+
+            return this.driver;
+        },
+        quit: function () {
+        }
+    });
+}
+afterTestSuite(function () {
+    if (_globalSingleDriver !== null) {
+        _globalSingleDriver.quit();
+        _globalSingleDriver = null;
+    }
+});
+
 var devices = {
-    mobileEmulation: inLocalBrowser("mobile", "450x800", ["mobile"]),
-    tabletEmulation: inLocalBrowser("tablet", "600x800", ["tablet"]),
-    desktopFirefox: inLocalBrowser("desktop", "1100x800", ["desktop"], "firefox"),
+    mobileEmulation: inSingleBrowser("mobile", "450x800", ["mobile"]),
+    tabletEmulation: inSingleBrowser("tablet", "600x800", ["tablet"]),
+    desktopFirefox: inSingleBrowser("desktop", "1100x800", ["desktop"]),
 };
 if (System.getProperty("saucelabs.enabled") == "true") {
     copyProperties(devices, sauceLabsDevices);
@@ -39,9 +80,9 @@ var TEST_USER = {
 
 
 function openDriverForDevice(device, url) {
-    var driver = device.openDriver(null);
+    var driver = device.initDriver(null);
 
-    session.put("driver", driver);
+    session.put("device", device);
 
     if (url != null) {
         if (url.indexOf("http://") != 0 && url.indexOf("https://") != 0) {
@@ -57,12 +98,12 @@ function openDriverForDevice(device, url) {
 
 
 afterTest(function (test) {
-    var driver = session.get("driver");
-    if (driver != null) {
+    var device = session.get("device");
+    if (device != null) {
         if (test.isFailed()) {
-            session.report().info("Screenshot").withAttachment("Screenshot", takeScreenshot(driver));
+            session.report().info("Screenshot").withAttachment("Screenshot", takeScreenshot(device.driver));
         }
-        driver.quit();
+        device.quit();
     }
 });
 
