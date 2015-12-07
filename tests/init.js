@@ -139,19 +139,18 @@ function checkRandomSizeLayout(driver, spec, tags, widthRange, iterationAmount) 
         throw new Error("Amount of iterations should be greater than 0");
     }
 
-    var iterationDelta = Math.round(widthDelta / iterationAmount);
-    if (iterationDelta < 1) {
-        iterationDelta = 1;
-    }
+    var iterationDelta = Math.max(Math.round(widthDelta / iterationAmount), 1);
 
     for (var i = 0; i < iterationAmount; i++) {
-        var size = Math.round(widthStart + i * iterationDelta + Math.round(Math.random() * iterationDelta));
+        var size = Math.round(widthStart + i * iterationDelta + Math.floor(Math.random() * iterationDelta));
         logged("Resizing to width " + size, function () {
-            resize(driver, size + "x700");
-            checkLayout(driver, spec, tags);
+           resize(driver, size + "x700");
+           checkLayout(driver, spec, tags);
         });
     }
 }
+
+var _veryLongWord = "Freundschaftsbezeigungen";
 
 /**
  * Used for testing layout when long words are used on major elements
@@ -172,7 +171,7 @@ function checkLongWordsLayout(driver, spec, tags, groupName) {
             var locator = pageSpec.getObjects().get(longWordsObjects.get(i));
             if (locator !== null) {
                 var webElement = GalenUtils.findWebElement(driver, locator);
-                driver.executeScript("var element = arguments[0]; element.innerHTML=\"Freundschaftsbezeigungen\";", webElement);
+                driver.executeScript("var element = arguments[0]; element.innerHTML=\"" + _veryLongWord + "\";", webElement);
             }
         }
     });
