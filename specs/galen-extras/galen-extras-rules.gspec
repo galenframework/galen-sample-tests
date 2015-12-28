@@ -1,0 +1,290 @@
+
+@if ${this.GEXTRAS_NO_MARGIN === undefined || this.GEXTRAS_NO_MARGIN === null}
+    @set GEXTRAS_NO_MARGIN  0px
+
+@script galen-extras-rules.js
+
+
+# Check that all matching elements are squared
+# e.g.
+#
+#   | header-icon, menu-button should be squared
+#
+@rule %{objectPattern} should be squared
+    @forEach [${objectPattern}] as item
+        ${item}:
+            width 100% of ${objectName}/height
+
+
+
+# Check that all matching elements are almost squared
+# allowing 10% difference between width and height
+# e.g.
+#
+#   | header-icon, menu-button should be almost squared
+#
+@rule %{objectPattern} should be almost squared
+    @forEach [${objectPattern}] as item
+        ${item}:
+            width 90 to 110% of ${objectName}/height
+
+
+
+# Check that element is strictly squared
+# e.g.
+#
+#   header.icon:
+#       | squared
+#
+@rule squared
+    width 100% of ${objectName}/height
+
+
+
+# Check that element is almost squared 
+# allowing 10% difference between its width and height
+# e.g.
+#
+#   header.icon:
+#       | almost squared
+#
+@rule almost squared
+    width 90 to 110% of ${objectName}/height
+
+
+
+# Checks width/height ratio in percentage of all specified objects
+# e.g.
+#
+# | login_button, cancel_button should have 130% width/height ratio
+#
+@rule %{itemPattern} should have %{ratio}% width/height ratio
+    @forEach [${itemPattern}] as item
+        ${item}:
+            height ${ratio} % of ${item}/width
+
+
+
+# Checks width/height ratio in percentage
+# e.g.
+#
+# | login_button, cancel_button should have 130% width/height ratio
+#
+@rule %{ratio}% width/height ratio
+    height ${ratio} % of ${objectName}/width
+
+
+
+# Checking amount of objects
+# e.g. 
+#
+#   | amount of any menu.item should be > 4
+#
+# or
+#
+#   | amount of visible menu.item-* should be 5 to 6
+#
+@rule amount of %{visibilityType: any|visible|absent} %{objectPattern} should be %{amount}
+    global:
+        count ${visibilityType} "${objectPattern}" is ${amount}
+
+
+
+# Check elements horizontal alignment with zero distance
+# e.g.
+#
+#   | home_box_* are aligned horizontally next to each other
+#
+@rule %{objectPattern} are aligned horizontally next to each other
+    @forEach [${objectPattern}] as item, next as nextItem
+        ${item}:
+            aligned horizontally all ${nextItem}
+            left-of ${nextItem} ${GEXTRAS_NO_MARGIN}
+
+
+
+# Check elements vertical alignment with zero distance
+# e.g.
+#
+#   | home_box_* are aligned vertically above each other
+#
+@rule %{objectPattern} are aligned vertically above each other
+    @forEach [${objectPattern}] as item, next as nextItem
+        ${item}:
+            aligned vertically all ${nextItem}
+            above ${nextItem} ${GEXTRAS_NO_MARGIN}
+
+
+# Check elements horizontal alignment and equal distance between each other
+# e.g.
+#
+#   | home_box_* are aligned horizontally next to each other with equal distance
+#
+@rule %{objectPattern} are aligned horizontally next to each other with equal distance
+    @if ${count(objectPattern) > 1}
+        @set _distance_ ${var all = findAll(objectPattern); Math.abs(all[1].left() - all[0].right())}
+        @set _distance_a ${parseInt(_distance_) - 1}
+        @set _distance_b ${parseInt(_distance_) + 1}
+        @forEach [${objectPattern}] as item, next as nextItem
+            ${item}:
+                aligned horizontally all ${nextItem}
+                left-of ${nextItem} ${_distance_a} to ${_distance_b} px
+
+
+
+# Check elements vertical alignment and equal distance between each other
+# e.g.
+#
+#   | home_box_* are aligned vertically above each other with equal distance
+#
+@rule %{objectPattern} are aligned vertically above each other with equal distance
+    @if ${count(objectPattern) > 1}
+        @set _distance_ ${var all = findAll(objectPattern); Math.abs(all[1].top() - all[0].bottom())}
+        @forEach [${objectPattern}] as item, next as nextItem
+            ${item}:
+                aligned vertically all ${nextItem}
+                above ${nextItem} ${_distance_} px
+
+
+
+# Check elements horizontal alignment and specific margin between each other
+# e.g.
+#
+#   | home_box_* are aligned horizontally next to each other with 10 to 30px margin
+#
+@rule %{objectPattern} are aligned horizontally next to each other with %{margin} margin
+    @forEach [${objectPattern}] as item, next as nextItem
+        ${item}:
+            aligned horizontally all ${nextItem}
+            left-of ${nextItem} ${margin}
+
+
+
+# Check elements vertical alignment and specific margin between each other
+# e.g.
+#
+#   | home_box_* are aligned vertically above each other with 10 to 20 px margin
+#
+@rule %{objectPattern} are aligned vertically above each other with %{margin} margin
+    @forEach [${objectPattern}] as item, next as nextItem
+        ${item}:
+            aligned vertically all ${nextItem}
+            above ${nextItem} ${margin}
+
+
+
+# Check that elements appear and hide on different tags
+# e.g.
+#
+#   | login_button, menu.item-* should be visible on desktop, tablet but absent on mobile
+#
+@rule %{objectPatterns} should be visible on %{tagsVisible} but absent on %{tagsAbsent}
+    ${objectPatterns}:
+        @on ${tagsVisible}
+            visible
+        @on ${tagsAbsent}
+            absent
+
+
+
+# Validate all matching objects using specified component spec
+# e.g.
+#
+#   | test all box-* with components/box.gspec
+#
+@rule test all %{objectPattern} with %{componentPath}
+    @forEach [${objectPattern}] as item
+        ${item}:
+            component ${componentPath}
+
+
+# Apply two specs to all elements in a single line
+# e.g.
+#
+#   | every menu.item-* is inside menu 0px top bottom and has width 100px
+#
+# or
+#
+#   | every menu.item-* has width and is inside menu 0px top bottom
+#
+@rule every %{objectPattern} %{verb: is|has} %{spec1} and %{verb2: is|has} %{spec2}
+    @forEach [${objectPattern}] as item
+        ${item}:
+            ${spec1}
+            ${spec2}
+
+
+# Apply spec to all elements in a single line
+# e.g.
+#
+#   | every menu.item-* is inside menu 0px top bottom
+#
+# or
+#
+#   | every menu.item-* has width 100px
+#
+@rule every %{objectPattern} %{verb: is|has} %{spec}
+    @forEach [${objectPattern}] as item
+        ${item}:
+            ${spec}
+
+
+
+# Apply spec to only first element in a single line
+# e.g.
+#
+#   | first menu.item-* is inside menu 0px top bottom
+#
+# or
+#
+#   | first menu.item-* has width 100px
+#
+@rule first %{objectPattern} %{verb: is|has} %{spec}
+    @if ${count(objectPattern) > 0}
+        ${first(objectPattern).name}:
+            ${spec}
+
+
+
+# Apply spec to only last element in a single line
+# e.g.
+#
+#   | last menu.item-* is inside menu 0px top bottom
+#
+# or
+#
+#   | last menu.item-* has width 100px
+#
+@rule last %{objectPattern} %{verb: is|has} %{spec}
+    @if ${count(objectPattern) > 0}
+        ${last(objectPattern).name}:
+            ${spec}
+
+
+
+# Apply rule body to only first element
+# e.g.
+#
+#   | first menu.item-* :
+#       below header 10px       
+#       inside main_container 0px top left
+#
+@rule first %{objectPattern}:
+    @if ${count(objectPattern) > 0}
+        ${first(objectPattern).name}:
+            @ruleBody
+
+
+# Apply rule body to only last element
+# e.g.
+#
+#   | last menu.item-* :
+#       above footer 10px       
+#       inside main_container 0px left right
+#
+@rule last %{objectPattern}:
+    @if ${count(objectPattern) > 0}
+        ${last(objectPattern).name}:
+            @ruleBody
+
+

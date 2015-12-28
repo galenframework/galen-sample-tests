@@ -65,9 +65,9 @@ afterTestSuite(function () {
 });
 
 var devices = {
-    mobileEmulation: inSingleBrowser("mobile", "450x800", ["mobile"]),
-    tabletEmulation: inSingleBrowser("tablet", "600x800", ["tablet"]),
-    desktopFirefox: inSingleBrowser("desktop", "1100x800", ["desktop"]),
+    mobileEmulation: inSingleBrowser("mobile", "450x700", ["mobile"]),
+    tabletEmulation: inSingleBrowser("tablet", "600x700", ["tablet"]),
+    desktopFirefox: inSingleBrowser("desktop", "1100x700", ["desktop"]),
 };
 if (System.getProperty("saucelabs.enabled") == "true") {
     copyProperties(devices, sauceLabsDevices);
