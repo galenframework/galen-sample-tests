@@ -1,0 +1,22 @@
+@import ../common-rules.gspec
+@import ../galen-extras/galen-extras-rules.gspec
+
+@objects
+    title           h4
+    description     p
+
+@groups
+    (note_element, note_elements)       title, description
+
+@set
+    note_vertical_margin    ~ 11px
+    note_horizontal_margin  ~ 16px
+    note_elements_distance  ~ 4px
+
+
+= Note =
+    | every &note_element is more or less readable
+    | every &note_element stretches to parent with ${note_horizontal_margin} margin
+    | &note_elements sides are vertically inside parent with ${note_vertical_margin} margin
+    | &note_elements are aligned vertically above each other with ${note_elements_distance} margin
+    
