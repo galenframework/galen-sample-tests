@@ -4,10 +4,16 @@
         width > 30px
         height > 10px
 
+
 @rule is tapable
     width > 50px
     height > 30px
 
+
+@rule every %{itemPatterns} is tapable
+    ${itemPatterns}:
+        width > 50px
+        height > 30px
 
 @rule stretches to %{parentObject} with %{margin} margin
     inside  ${parentObject} ${margin} left right

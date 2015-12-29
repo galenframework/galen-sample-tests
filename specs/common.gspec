@@ -26,6 +26,9 @@
     header_desktop_text Sample Website for Galen Framework
 
 
+@set
+    form_textfield_height   34px
+
 = Skeleton =
     | &skeleton_elements sides are vertically inside screen
     | &skeleton_elements are aligned vertically above each other
