@@ -1,0 +1,78 @@
+{
+    "saucelabs_htcOneX": {
+        "deviceName": "SauceLabs HTC One X",
+        "tags": [ "mobile" ],
+        "gridSettings": {
+            "browser": "android",
+            "desiredCapabilities": {
+                "platform": "Linux",
+                "version": "4.1",
+                "deviceName": "HTC One X Emulator",
+                "deviceOrientation": "portrait"
+            }
+        }
+    },
+    "saucelabs_googleNexus7C": {
+        "deviceName": "SauceLabs Google Nexus 7C", 
+        "tags": [ "tablet" ], 
+        "gridSettings": {
+            "browser": "android",
+            "desiredCapabilities": {
+                "platform": "Linux",
+                "version": "4.1",
+                "deviceName": "Google Nexus 7C Emulator",
+                "deviceOrientation": "portrait"
+            }
+        }
+    },
+    "saucelabs_Windows_10_IE11": {
+        "deviceName": "SauceLabs Internet Explorer 11", 
+        "tags": [ "desktop" ],
+        "gridSettings": {
+            "browser": "internet explorer",
+            "desiredCapabilities": {
+                "platform": "Windows 10",
+                "version": "11.0"
+            }
+        }
+    },
+    "saucelabs_iPhone_iOS_6": {
+        "deviceName": "SauceLabs iPhone iOS 6.0", 
+        "tags": [ "mobile" ],
+        "gridSettings": {
+            "browser": "iphone",
+            "desiredCapabilities": {
+                "platform": "OS X 10.10",
+                "version": "6.0",
+                "deviceName": "iPhone Simulator",
+                "deviceOrientation": "portrait"
+            }
+        }
+    },
+    "saucelabs_iPad_6": {
+        "deviceName": "SauceLabs iPad IOS 6.0",
+        "tags": [ "tablet" ],
+        "gridSettings": {
+            "browser": "iphone",
+            "desiredCapabilities": {
+                "platform": "OS X 10.10",
+                "version": "6.0",
+                "deviceName": "iPad Simulator",
+                "deviceOrientation": "portrait"
+            }
+        }
+    },
+    "saucelabs_iPhone_iOS_8": {
+        "deviceName": "SauceLabs iPhone iOS 8.0", 
+        "tags": [ "mobile" ],
+        "gridSettings": {
+            "browser": "iphone",
+            "desiredCapabilities": {
+                "platform": "OS X 10.10",
+                "version": "8.0",
+                "deviceName": "iPhone Simulator",
+                "deviceOrientation": "portrait"
+            }
+        }
+    }
+}
