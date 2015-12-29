@@ -6,7 +6,9 @@ var TEST_USER = {
     password: "test123"
 };
 
-$galen.settings.website = "http://testapp.galenframework.com";
+//$galen.settings.website = "http://testapp.galenframework.com";
+$galen.settings.website = "http://localhost:8080";
+
 $galen.registerDevice("mobile", inSingleBrowser("mobile emulation", "450x700", ["mobile"]));
 $galen.registerDevice("tablet", inSingleBrowser("tablet emulation", "600x700", ["tablet"]));
 $galen.registerDevice("desktop", inSingleBrowser("desktop emulation", "1024x768", ["desktop"]));
