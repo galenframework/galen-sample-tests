@@ -8,7 +8,7 @@ testOnAllDevices("Welcome page", "/", function (driver, device) {
 
 
 
-testOnDevice(devices.desktopFirefox, "Menu Highlight", "/", function (driver, device) {
+testOnDevice($galen.devices.desktop, "Menu Highlight", "/", function (driver, device) {
     var welcomePage = new WelcomePage(driver).waitForIt();
     logged("Checking color for menu item", function () {
         checkLayout(driver, "specs/menuHighlight.gspec", ["usual"]);
