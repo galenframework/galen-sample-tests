@@ -10,7 +10,7 @@
 
 @groups
     (login_box_button, login_box_buttons)                   login_button, cancel_button
-    login_box_textfields                                    username_textfield, password_textfield
+    (login_box_textfield, login_box_textfields)             username_textfield, password_textfield
     (login_box_form_element, login_box_form_elements)       login_caption, &login_box_textfields
     (login_box_element, login_box_elements)                 &login_box_form_elements, &login_box_buttons
 
@@ -24,6 +24,8 @@
 
 @on mobile
     @set login_box_elements_side_margin 0px
+
+
 = Login box =
     login_box:
         centered horizontally inside content 1px
@@ -33,7 +35,7 @@
     login_caption:
         text is "${login_caption_text}"
 
-    | every &login_box_textfields has height ${form_textfield_height}
+    | every &login_box_textfield has height ${form_textfield_height}
     | every &login_box_button is tapable
 
     @on desktop, tablet
