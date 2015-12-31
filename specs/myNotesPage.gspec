@@ -14,7 +14,7 @@
 
 @set
     note_amount                 > 1
-    notes_margin                ~ 10px
+    notes_margin                10 to 30px
     content_vertical_margin     ~ 40px
     content_horizontal_margin   ~ 20px
     addnote_button_text         Add note
