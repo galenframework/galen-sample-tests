@@ -25,8 +25,9 @@
     header_mobile_text  Sample Website
     header_desktop_text Sample Website for Galen Framework
 
+    content_vertical_margin 20 to 45px
+    content_horizontal_margin ~ 20px
 
-@set
     form_textfield_height   34px
 
 = Skeleton =
