@@ -25,8 +25,8 @@
 
 
 = Welcome block =
-    welcome_block:
-        inside content ${welcome_block_margin} top left right
+    | welcome_block is at the top inside content with ${welcome_block_margin} margin
+    | a welcome_block stretches to content with ${welcome_block_margin} margin
 
     | every &greeting_element is inside welcome_block ${greeting_elements_margin} left right
     | &greeting_elements sides are vertically inside welcome_block with ${greeting_elements_side_margin} margin

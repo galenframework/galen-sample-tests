@@ -15,8 +15,6 @@
 @set
     note_amount                 > 1
     notes_margin                10 to 30px
-    content_vertical_margin     ~ 40px
-    content_horizontal_margin   ~ 20px
     addnote_button_text         Add note
     addnote_button_margin       ~ 20px
     almost_zero                 -1 to 0px
@@ -29,14 +27,15 @@
 = My notes =
     | test all &notes with components/my-note.gspec
     | amount of visible &notes should be ${note_amount}
+
     | &notes are aligned vertically above each other with ${almost_zero} margin
     | &notes sides are vertically inside notes_container
+
     | first &note is below caption ${notes_margin}
     | last &note is above addnote_button ${addnote_button_margin}
 
-    caption:
-        inside content ${content_vertical_margin} top
-        | stretches to content with ${content_horizontal_margin} margin
+    | caption is at the top inside content with ${content_vertical_margin} margin
+    | a caption stretches to content with ${content_horizontal_margin} margin
 
     addnote_button:
         text is "${addnote_button_text}"

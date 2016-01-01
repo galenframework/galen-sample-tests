@@ -15,12 +15,12 @@
 
 
 @set
-    add_note_elements_vertical_margin  5 to 20px
-    description_height          150 to 350px
+    add_note_elements_vertical_margin   5 to 20px
+    description_height                  150 to 350px
+
 
 = Add note page =
-    caption:
-        inside content ${content_vertical_margin} top
+    | caption is at the top inside content with ${content_vertical_margin} margin
 
     | every &add_note_element is more or less readable
     | every &add_note_form_element stretches to content with ${content_horizontal_margin} margin

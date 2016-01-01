@@ -1,5 +1,5 @@
 
-@rule every %{itemPatterns} is more or less readable
+@rule %{word: every|a} %{itemPatterns} is more or less readable
     ${itemPatterns}:
         width > 30px
         height > 10px
@@ -10,14 +10,24 @@
     height > 30px
 
 
-@rule every %{itemPatterns} is tapable
+@rule %{word: every|a} %{itemPatterns} is tapable
     ${itemPatterns}:
         width > 50px
         height > 30px
 
+
 @rule stretches to %{parentobject} with %{margin} margin
     inside  ${parentobject} ${margin} left right
 
-@rule every %{itemPatterns} stretches to %{parentobject} with %{margin} margin
+
+@rule %{word: every|a} %{itemPatterns} stretches to %{parentobject} with %{margin} margin
     ${itemPatterns}:
         inside  ${parentobject} ${margin} left right
+
+
+@rule at the %{side: top|bottom} inside %{parentObject} with %{margin} margin
+    inside ${parentObject} ${margin} ${side}
+
+@rule %{objectName} is at the %{side: top|bottom} inside %{parentObject} with %{margin} margin
+    ${objectName}:
+        inside ${parentObject} ${margin} ${side}

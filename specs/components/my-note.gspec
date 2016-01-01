@@ -1,5 +1,4 @@
-@import ../common-rules.gspec
-@import ../galen-extras/galen-extras-rules.gspec
+@import ../common-data.gspec
 
 @objects
     title           h4
