@@ -21,7 +21,7 @@
 
 @on mobile
     @set
-        addnote_button_margin       ~ 30px
+        addnote_button_margin   ~ 30px
     
 
 = My notes =

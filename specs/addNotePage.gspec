@@ -4,13 +4,13 @@
     caption                 #content h2
     title_textfield         input[name='note.title']
     description_textfield   textarea
-    button_add              button.btn-primary
-    button_cancel           button.btn-default
+    add_button              button.btn-primary
+    cancel_button           button.btn-default
 
 
 @groups
     (add_note_form_element, add_note_form_elements)     caption, title_textfield, description_textfield
-    (add_note_form_button, add_note_form_buttons)       button_add, button_cancel
+    (add_note_form_button, add_note_form_buttons)       add_button, cancel_button
     (add_note_element, add_note_elements)               &add_note_form_elements, &add_note_form_buttons
 
 
@@ -26,17 +26,15 @@
     | every &add_note_form_element stretches to content with ${content_horizontal_margin} margin
     | every &add_note_form_button is tapable
 
+    @on desktop, tablet
+        | &add_note_form_elements are aligned vertically above each other with ${add_note_elements_vertical_margin} margin
+        | last &add_note_form_element is above add_button ${add_note_elements_vertical_margin}
+        | &add_note_form_buttons are aligned horizontally next to each other with 0 to 5px margin
+    @on mobile
+        | &add_note_elements are aligned vertically above each other with ${add_note_elements_vertical_margin} margin
 
     title_textfield:
         height ${form_textfield_height}
     
     description_textfield:
         height ${description_height}
-
-    @on desktop, tablet
-        | &add_note_form_elements are aligned vertically above each other with ${add_note_elements_vertical_margin} margin
-        | last &add_note_form_element is above button_add ${add_note_elements_vertical_margin}
-        | &add_note_form_buttons are aligned horizontally next to each other with 0 to 5px margin
-    @on mobile
-        | &add_note_elements are aligned vertically above each other with ${add_note_elements_vertical_margin} margin
-

@@ -11,17 +11,17 @@
 
 
 @set
-    greeting_height             40 to 70px
-    welcome_block_margin        20px
-    greeting_elements_margin    30px
-    greeting_elements_side_margin    60 to 75px
+    welcome_block_margin                20px
+    greeting_height                     40 to 70px
+    greeting_elements_margin            30px
+    greeting_elements_side_margin       60 to 75px
     greeting_elements_vertical_margin   8 to 20px
-    login_button_text           Login
-    login_button_desktop_width  ~ 78px
+    login_button_text                   Login
+    login_button_desktop_width          ~ 78px
 
 
 @on tablet, mobile
-    @set greeting_elements_side_margin 45 to 60px
+    @set greeting_elements_side_margin  45 to 60px
 
 
 = Welcome block =
