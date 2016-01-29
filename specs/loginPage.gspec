@@ -35,6 +35,10 @@
     | every &login_box_textfield has height ${form_textfield_height}
     | every &login_box_button is tapable
 
+    = Styling =
+        | login_button should look like a primary button
+        | cancel_button should look like a secondary button
+
     @on desktop, tablet
         | &login_box_form_elements are aligned vertically above each other with ${login_box_elements_vertical_margin} margin
         | first &login_box_form_element is inside login_box ${login_box_elements_side_margin} top

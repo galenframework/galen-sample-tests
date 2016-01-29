@@ -7,6 +7,7 @@ var TEST_USER = {
 };
 
 $galen.settings.website = "http://testapp.galenframework.com";
+//$galen.settings.website = "http://localhost:8080";
 
 $galen.registerDevice("mobile", inSingleBrowser("mobile emulation", "450x700", ["mobile"]));
 $galen.registerDevice("tablet", inSingleBrowser("tablet emulation", "600x700", ["tablet"]));
