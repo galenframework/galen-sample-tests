@@ -41,12 +41,5 @@
     ${objectName}:
         @if ${style === "primary"}
             color-scheme > 70% ${PRIMARY_BACKGROUND_COLOR}, 0.1 to 10% white
-        @elseif ${style === "secondary"}
-            color-scheme > 70% ${SECONDARY_BACKGROUND_COLOR}, 0.1 to 10% black
         @else
-            fail "Unknown style: ${style}"
-
-
-
-
-
+            color-scheme > 70% ${SECONDARY_BACKGROUND_COLOR}, 0.1 to 10% black
