@@ -34,8 +34,8 @@
     | first &note is below caption ${notes_margin}
     | last &note is above addnote_button ${addnote_button_margin}
 
-    | caption is at the top inside content with ${content_vertical_margin} margin
-    | a caption stretches to content with ${content_horizontal_margin} margin
+    | caption should be located at the top inside content with ${content_vertical_margin} margin
+    | caption should stretch to content with ${content_horizontal_margin} margin
 
     addnote_button:
         text is "${addnote_button_text}"

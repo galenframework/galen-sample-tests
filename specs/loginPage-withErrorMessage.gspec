@@ -1,4 +1,3 @@
-@import common-rules.gspec
 @import galen-extras/galen-extras-rules.gspec
 
 @objects

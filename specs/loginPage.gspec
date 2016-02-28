@@ -28,12 +28,12 @@
 
 = Login box =
     login_box:
-        | at the top inside content with ${content_vertical_margin} margin
+        | located at the top inside content with ${content_vertical_margin} margin
         centered horizontally inside content 1px
 
-    | every &login_box_element is more or less readable
+    | &login_box_elements should be more or less readable
     | every &login_box_textfield has height ${form_textfield_height}
-    | every &login_box_button is tapable
+    | &login_box_buttons should be tapable
 
     = Styling =
         | login_button should look like a primary button
