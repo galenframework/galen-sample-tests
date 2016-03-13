@@ -16,6 +16,12 @@
     skeleton_element            &skeleton_elements
 
 @set
+    minimal             -1 to 1px
+    tiny                0 to 5px
+    small               5 to 15px
+    normal              15 to 25px
+    medium              25 to 35px
+
     skeleton_max_width  900px
     header_height       70px
     menu_height         64px

@@ -14,22 +14,22 @@
     welcome_block_margin                20px
     greeting_height                     40 to 70px
     greeting_elements_margin            30px
-    greeting_elements_side_margin       60 to 75px
+    greeting_elements_outer_margin       60 to 75px
     greeting_elements_vertical_margin   8 to 20px
     login_button_text                   Login
     login_button_desktop_width          ~ 78px
 
 
 @on tablet, mobile
-    @set greeting_elements_side_margin  45 to 60px
+    @set greeting_elements_outer_margin  45 to 60px
 
 
 = Welcome block =
-    | welcome_block should be located at the top inside content with ${welcome_block_margin} margin
+    | welcome_block should be located at the top inside content with ${normal} margin
     | welcome_block should stretch to content with ${welcome_block_margin} margin
 
-    | &greeting_elements should stretch to welcome_block with ${greeting_elements_margin} margin
-    | &greeting_elements sides are vertically inside welcome_block with ${greeting_elements_side_margin} margin
+    | &greeting_elements should stretch to welcome_block with ${medium} margin
+    | &greeting_elements sides are vertically inside welcome_block with ${greeting_elements_outer_margin} margin
     | &greeting_elements are aligned vertically above each other with ${greeting_elements_vertical_margin} margin
     | &greeting_elements should be more or less readable
 
@@ -39,5 +39,5 @@
         @on desktop, tablet
             width ${login_button_desktop_width}
         @on mobile
-            | stretches to welcome_block with ${greeting_elements_margin} margin
+            | stretches to welcome_block with ${medium} margin
 
