@@ -28,7 +28,7 @@
     | welcome_block should be located at the top inside content with ${welcome_block_margin} margin
     | welcome_block should stretch to content with ${welcome_block_margin} margin
 
-    | every &greeting_element is inside welcome_block ${greeting_elements_margin} left right
+    | &greeting_elements should stretch to welcome_block with ${greeting_elements_margin} margin
     | &greeting_elements sides are vertically inside welcome_block with ${greeting_elements_side_margin} margin
     | &greeting_elements are aligned vertically above each other with ${greeting_elements_vertical_margin} margin
     | &greeting_elements should be more or less readable
