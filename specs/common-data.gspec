@@ -23,10 +23,10 @@
     medium              25 to 35px
 
     skeleton_max_width  900px
-    header_height       70px
-    menu_height         64px
+    header_height       ~ 70px
+    menu_height         ~ 64px
     menu_item_height    ${menu_height}
-    footer_height       150px
+    footer_height       ~ 150px
 
     header_mobile_text  Sample Website
     header_desktop_text Sample Website for Galen Framework
